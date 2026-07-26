@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabspace Blogs</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore insightful computer science articles, architectural breakdowns, and software development guides at Tabspace Blogs.">
+    <meta name="keywords" content="Tabspace Blogs, CS Articles, Git, Linux, Pointers, Software Development, Technical Writing">
+    <meta name="author" content="Tabspace Presentations">
+    <link rel="canonical" href="https://www.tabspacepresentations.com/blogs/">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#ff6D00',
+                            green: '#22c55e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-calisto {
+            font-family: 'Calisto MT', 'Bookman Old Style', Georgia, serif;
+        }
+
+        :root {
+            --bg-main: #1a1a1a;
+            --bg-card: #2a2a2a;
+            --border-color: #333333;
+            --text-main: #eff1f5;
+            --text-muted: #9ca3af;
+            --accent-green: #22c55e;
+            --glow-orange: #ff6D00;
+        }
+
+        /* Global Font Weight */
+        * {
+            font-weight: 700 !important;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            letter-spacing: 0.025em;
+        }
+
+        /* Fixed offset for section anchor scrolling */
+        section[id] {
+            scroll-margin-top: 140px;
+        }
+
+        /* Base Card & Nav Button Styles */
+        .card-section, .btn-card {
+            background-color: rgba(39, 39, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* STANDARD HOVER: Text turns GREEN (#22c55e), Glow & Border turn ORANGE (#ff6d00) */
+        .std-hover {
+            transition: all 0.25s ease-in-out;
+        }
+        .std-hover:hover h2, 
+        .std-hover:hover h3, 
+        .std-hover:hover span:not(.no-hover-override):not(.arrow):not(.preserve-white):not(.preserve-orange):not(.preserve-green) {
+            color: var(--accent-green) !important;
+        }
+        
+        /* EXCEPTION: Hard lock specific spans inside std-hover sections */
+        .std-hover:hover .preserve-white {
+            color: #ffffff !important;
+        }
+        .std-hover:hover .preserve-orange {
+            color: #ff6D00 !important;
+        }
+        .std-hover:hover .preserve-green {
+            color: #22c55e !important;
+        }
+
+        .std-hover:hover {
+            border-color: var(--glow-orange) !important;
+            box-shadow: 0 0 16px 2px rgba(255, 109, 0, 0.45) !important;
+        }
+
+        /* ARTICLES CARD HOVER */
+        .article-card-hover {
+            transition: all 0.25s ease-in-out;
+        }
+        .article-card-hover:hover {
+            border-color: var(--glow-orange) !important;
+            box-shadow: 0 0 16px 2px rgba(255, 109, 0, 0.45) !important;
+        }
+        .article-card-hover:hover h3 {
+            color: var(--accent-green) !important;
+        }
+
+        /* Image Zoom Effect on Card Hover */
+        .article-card-hover:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Custom Orange CTA Buttons for Articles */
+        .cta-btn-orange {
+            background: linear-gradient(135deg, #ff6D00 0%, #ff8500 100%);
+            color: #000000 !important;
+            border: 1px solid #ff6D00;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 109, 0, 0.35);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn-orange:hover {
+            background: #121212 !important;
+            color: var(--accent-green) !important;
+            border-color: var(--glow-orange) !important;
+            box-shadow: 0 0 22px 4px rgba(255, 109, 0, 0.6) !important;
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .arrow {
+            display: inline-block;
+            transition: transform 0.2s ease, color 0.25s ease;
+            color: #000000 !important;
+        }
+
+        .cta-btn-orange:hover .arrow {
+            color: var(--accent-green) !important;
+            transform: translateX(4px);
+        }
+
+        /* Typing Cursor Effect */
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #22c55e;
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+            vertical-align: middle;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--glow-orange);
+        }
+    </style>
+
+    <!-- Global topic array initialization -->
+    <script>
+        window.numArticles = [];
+        window.aArticles = [];
+        window.bArticles = [];
+        window.cArticles = [];
+        window.dArticles = [];
+        window.eArticles = [];
+        window.fArticles = [];
+        window.gArticles = [];
+        window.hArticles = [];
+        window.iArticles = [];
+        window.jArticles = [];
+        window.kArticles = [];
+        window.lArticles = [];
+        window.mArticles = [];
+        window.nArticles = [];
+        window.oArticles = [];
+        window.pArticles = [];
+        window.qArticles = [];
+        window.rArticles = [];
+        window.sArticles = [];
+        window.tArticles = [];
+        window.uArticles = [];
+        window.vArticles = [];
+        window.wArticles = [];
+        window.xArticles = [];
+        window.yArticles = [];
+        window.zArticles = [];
+    </script>
+
+    <!-- Topic List Script Tags from 'names' folder -->
+    <script src="./names/num.js"></script>
+    <script src="./names/A.js"></script>
+    <script src="./names/B.js"></script>
+    <script src="./names/C.js"></script>
+    <script src="./names/D.js"></script>
+    <script src="./names/E.js"></script>
+    <script src="./names/F.js"></script>
+    <script src="./names/G.js"></script>
+    <script src="./names/H.js"></script>
+    <script src="./names/I.js"></script>
+    <script src="./names/J.js"></script>
+    <script src="./names/K.js"></script>
+    <script src="./names/L.js"></script>
+    <script src="./names/M.js"></script>
+    <script src="./names/N.js"></script>
+    <script src="./names/O.js"></script>
+    <script src="./names/P.js"></script>
+    <script src="./names/Q.js"></script>
+    <script src="./names/R.js"></script>
+    <script src="./names/S.js"></script>
+    <script src="./names/T.js"></script>
+    <script src="./names/U.js"></script>
+    <script src="./names/V.js"></script>
+    <script src="./names/W.js"></script>
+    <script src="./names/X.js"></script>
+    <script src="./names/Y.js"></script>
+    <script src="./names/Z.js"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-calisto antialiased min-h-screen selection:bg-brand-orange selection:text-black flex flex-col justify-between">
+
+    <!-- DEEP BLACK STICKY HEADER -->
+    <header class="sticky top-0 z-50 bg-black border-b border-zinc-900 px-6 py-4 transition-all">
+        <div class="w-full flex items-center justify-between gap-4">
+            <!-- Logo Container (Non-clickable, zoom on hover only) -->
+            <div class="flex items-center gap-3 select-none">
+                <div class="flex items-center shrink-0 py-1 cursor-default" aria-label="Tabspace Blogs Logo Container">
+                    <img src="./images/logo.png" alt="Tabspace Presentations Logo" class="h-16 md:h-20 w-auto object-contain block opacity-95 hover:opacity-100 hover:scale-105 transition-all duration-300" />
+                </div>
+                <span class="text-zinc-500 text-lg md:text-2xl font-light">/ Blogs</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-3 text-base" aria-label="Main Navigation">
+                <a href="#featured" class="btn-card std-hover text-white px-5 py-2.5 text-sm">Featured Topics</a>
+                <a href="#all-topics" class="btn-card std-hover text-white px-5 py-2.5 text-sm">All Topics</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- EXPANDED MAIN CONTAINER -->
+    <main class="w-full px-6 py-8 space-y-12 max-w-[1400px] mx-auto flex-grow">
+
+        <!-- HERO SECTION WITH TYPING ANIMATION -->
+        <section class="card-section std-hover p-8 md:p-14 text-center flex flex-col items-center justify-center space-y-6">
+            <h1 class="text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+                <span class="preserve-white" style="color: #ffffff;">Welcome to</span> <span class="preserve-orange" style="color: #ff6D00;">Tabspace</span> <span class="preserve-green" style="color: #22c55e;">Blogs</span>
+            </h1>
+            <div class="text-xl md:text-3xl text-zinc-300 font-medium h-12 flex items-center justify-center">
+                <span id="typed-text" class="text-zinc-300 transition-colors duration-200"></span><span class="typing-cursor" id="typed-cursor">&nbsp;</span>
+            </div>
+            <p class="text-zinc-400 text-sm md:text-base max-w-2xl">
+                Explore high-performance computer science concepts, architectural breakdowns, and software engineering guides.
+            </p>
+        </section>
+
+        <!-- SEARCH BAR SECTION -->
+        <section class="max-w-xl mx-auto">
+            <div class="relative">
+                <input type="text" id="article-search" placeholder="Search topics (e.g., Git, Linux, Pointers)..." class="w-full bg-[#2a2a2a] border border-[#333333] text-white placeholder-zinc-500 rounded-xl px-5 py-3.5 focus:outline-none focus:border-[#ff6D00] focus:ring-1 focus:ring-[#ff6D00] transition-colors shadow-inner" oninput="filterArticles()">
+            </div>
+        </section>
+
+        <!-- FEATURED TOPICS SECTION -->
+        <section id="featured" class="space-y-6 scroll-mt-36">
+            <div class="flex items-center justify-between border-b border-[#333333] pb-3">
+                <h2 class="text-2xl text-white tracking-wide">Featured Topics</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Git Card -->
+                <div class="searchable-item card-section article-card-hover overflow-hidden flex flex-col group" data-name="git">
+                    <div class="aspect-video w-full bg-gradient-to-br from-green-950/30 via-[#1a1a1a] to-black relative flex items-center justify-center overflow-hidden border-b border-[#333333]">
+                        <img src="./images/git.png" alt="Git" class="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-300" />
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div class="flex items-center justify-between gap-4">
+                            <h3 class="text-xl text-white tracking-wide">Git</h3>
+                            <a href="topics/git/" class="cta-btn-orange inline-flex items-center gap-2 px-4 py-2 text-sm shrink-0">
+                                Read <span class="arrow">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linux Card -->
+                <div class="searchable-item card-section article-card-hover overflow-hidden flex flex-col group" data-name="linux">
+                    <div class="aspect-video w-full bg-gradient-to-br from-green-950/30 via-[#1a1a1a] to-black relative flex items-center justify-center overflow-hidden border-b border-[#333333]">
+                        <img src="./images/linux.png" alt="Linux" class="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-300" />
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div class="flex items-center justify-between gap-4">
+                            <h3 class="text-xl text-white tracking-wide">Linux</h3>
+                            <a href="topics/linux/" class="cta-btn-orange inline-flex items-center gap-2 px-4 py-2 text-sm shrink-0">
+                                Read <span class="arrow">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pointers Card -->
+                <div class="searchable-item card-section article-card-hover overflow-hidden flex flex-col group" data-name="pointers">
+                    <div class="aspect-video w-full bg-gradient-to-br from-green-950/30 via-[#1a1a1a] to-black relative flex items-center justify-center overflow-hidden border-b border-[#333333]">
+                        <img src="./images/pointers.png" alt="Pointers" class="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-300" />
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div class="flex items-center justify-between gap-4">
+                            <h3 class="text-xl text-white tracking-wide">Pointers</h3>
+                            <a href="topics/pointers/" class="cta-btn-orange inline-flex items-center gap-2 px-4 py-2 text-sm shrink-0">
+                                Read <span class="arrow">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ALL TOPICS SECTION -->
+        <section id="all-topics" class="space-y-6 scroll-mt-36">
+            <div class="flex items-center justify-between border-b border-[#333333] pb-3">
+                <h2 class="text-2xl text-white tracking-wide">All Topics</h2>
+            </div>
+
+            <!-- Grid for Dynamic Loading (2 Columns) -->
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamically populated from JS files -->
+            </div>
+
+            <!-- Load More Button Container -->
+            <div id="load-more-container" class="text-center pt-6">
+                <button onclick="loadMoreArticles()" class="cta-btn-orange px-8 py-3.5 text-base active:scale-95">
+                    Load More Topics <span class="arrow">↓</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer class="py-8 border-t border-zinc-900 text-center mt-12">
+        <p class="text-xs tracking-wider text-zinc-500">
+            Presented by <span class="font-bold text-[#ff6D00]">Tabspace</span> <span class="font-bold text-brand-green">Presentations</span> &copy; 2026. All rights reserved.
+        </p>
+    </footer>
+
+    <!-- SCRIPTS: TYPING ANIMATION & DYNAMIC EXTERNAL JS FETCH LOGIC -->
+    <script>
+        const words = ["Git", "Linux", "Pointers", "Algorithms", "System Design", "C Programming"];
+        let i = 0;
+
+        function typingEffect() {
+            const word = words[i].split("");
+            const typedTextSpan = document.getElementById("typed-text");
+            
+            function addLetter() {
+                if (word.length > 0) {
+                    typedTextSpan.textContent += word.shift();
+                } else {
+                    setTimeout(eraseEffect, 2000);
+                    return;
+                }
+                setTimeout(addLetter, 100);
+            }
+            addLetter();
+        }
+
+        function eraseEffect() {
+            const word = words[i].split("");
+            const typedTextSpan = document.getElementById("typed-text");
+            
+            function removeLetter() {
+                if (word.length > 0) {
+                    word.pop();
+                    typedTextSpan.textContent = word.join("");
+                } else {
+                    i = (i + 1) % words.length;
+                    setTimeout(typingEffect, 500);
+                    return;
+                }
+                setTimeout(removeLetter, 50);
+            }
+            removeLetter();
+        }
+
+        // Combine all loaded global arrays from names folder
+        const allArticles = [
+            ...(window.numArticles || []),
+            ...(window.aArticles || []),
+            ...(window.bArticles || []),
+            ...(window.cArticles || []),
+            ...(window.dArticles || []),
+            ...(window.eArticles || []),
+            ...(window.fArticles || []),
+            ...(window.gArticles || []),
+            ...(window.hArticles || []),
+            ...(window.iArticles || []),
+            ...(window.jArticles || []),
+            ...(window.kArticles || []),
+            ...(window.lArticles || []),
+            ...(window.mArticles || []),
+            ...(window.nArticles || []),
+            ...(window.oArticles || []),
+            ...(window.pArticles || []),
+            ...(window.qArticles || []),
+            ...(window.rArticles || []),
+            ...(window.sArticles || []),
+            ...(window.tArticles || []),
+            ...(window.uArticles || []),
+            ...(window.vArticles || []),
+            ...(window.wArticles || []),
+            ...(window.xArticles || []),
+            ...(window.yArticles || []),
+            ...(window.zArticles || [])
+        ];
+
+        let currentIndex = 0;
+        const batchSize = 50;
+
+        function renderArticles(articlesToRender, append = false) {
+            const grid = document.getElementById("articles-grid");
+            if (!append) grid.innerHTML = "";
+
+            if (articlesToRender.length === 0 && !append) {
+                grid.innerHTML = `<p class="text-zinc-500 col-span-full text-center py-8">No topics found.</p>`;
+                return;
+            }
+
+            articlesToRender.forEach(article => {
+                const card = document.createElement("div");
+                card.className = "searchable-item card-section article-card-hover overflow-hidden flex flex-col group";
+                card.setAttribute("data-name", article.name.toLowerCase());
+                card.innerHTML = `
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div class="flex items-center justify-between gap-4">
+                            <h4 class="text-lg text-white tracking-wide">${article.name}</h4>
+                            <a href="${article.path}" class="cta-btn-orange inline-flex items-center gap-2 px-4 py-2 text-sm shrink-0">
+                                Read <span class="arrow">→</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function initLoadMore() {
+            currentIndex = Math.min(batchSize, allArticles.length);
+            renderArticles(allArticles.slice(0, currentIndex));
+            
+            if (currentIndex >= allArticles.length) {
+                document.getElementById("load-more-container").style.display = "none";
+            }
+        }
+
+        function loadMoreArticles() {
+            const nextIndex = Math.min(currentIndex + batchSize, allArticles.length);
+            const remainingArticles = allArticles.slice(currentIndex, nextIndex);
+            renderArticles(remainingArticles, true);
+            currentIndex = nextIndex;
+
+            if (currentIndex >= allArticles.length) {
+                document.getElementById("load-more-container").style.display = "none";
+            }
+        }
+
+        function filterArticles() {
+            const query = document.getElementById("article-search").value.toLowerCase();
+            const loadMoreBtn = document.getElementById("load-more-container");
+
+            if (query.trim() !== "") {
+                if (loadMoreBtn) loadMoreBtn.style.display = "none";
+                const filtered = allArticles.filter(article => article.name.toLowerCase().includes(query));
+                renderArticles(filtered);
+            } else {
+                if (loadMoreBtn) loadMoreBtn.style.display = "";
+                renderArticles(allArticles.slice(0, currentIndex));
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(typingEffect, 1000);
+            initLoadMore();
+        });
+    </script>
+</body>
+</html>
